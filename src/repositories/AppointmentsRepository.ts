@@ -17,11 +17,11 @@ class AppointmentsRepository extends Repository<Appointment>{
     //   isEqual(date, appointment.date),
     // );
 
-    // const findAppointment = await this.findOne({
-    //   where: { date },
-    // })
+    const findAppointment = await this.findOne({
+      where: { date },
+    })
 
-    const findAppointment = await this.find();
+    // const findAppointment = await this.find();
 
 
 

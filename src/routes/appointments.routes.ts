@@ -16,8 +16,10 @@ appointmentRouter.get('/', async (requeste, response) => {
 
 appointmentRouter.post('/', async (request, response) => {
   try {
-    const { provider, date, provider_id } = request.body;
-    const parsedDate = parseISO(date);
+    const { date, provider_id } = request.body;
+
+    // Date need to be changed. date need to be passed by request.body, not by default Date.now()
+    const parsedDate = new Date(date);
     const createAppointment = new CreateAppointmentService();
     const appointment = await createAppointment.execute({
       date: parsedDate,
