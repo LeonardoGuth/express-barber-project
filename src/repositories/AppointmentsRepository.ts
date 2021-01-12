@@ -1,10 +1,13 @@
 import { isEqual } from 'date-fns';
+import User from '../models/User';
 import { EntityRepository, Repository } from 'typeorm'
-import Appointment from '../models/appointments';
+import Appointment from '../models/Appointment';
 
 interface CreateAppointmentDTO {
-  provider: string;
+  provider_id: string;
   date: Date;
+  provider: User;
+
 }
 
 @EntityRepository(Appointment)
@@ -17,6 +20,10 @@ class AppointmentsRepository extends Repository<Appointment>{
     const findAppointment = await this.findOne({
       where: { date },
     })
+
+    // const findAppointment = await this.find();
+
+
 
     return findAppointment || null;
   }

@@ -3,8 +3,8 @@ import { getCustomRepository } from 'typeorm';
 import { parseISO } from 'date-fns';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import CreateAppointmentService from '../services/CreateAppointmentServices';
-import Appointment from '../models/appointments';
+import CreateAppointmentService from '../services/CreateAppointmentService';
+import Appointment from '../models/Appointment';
 
 const appointmentRouter = Router();
 
@@ -16,12 +16,14 @@ appointmentRouter.get('/', async (requeste, response) => {
 
 appointmentRouter.post('/', async (request, response) => {
   try {
-    const { provider, date } = request.body;
-    const parsedDate = parseISO(date);
+    const { date, provider_id } = request.body;
+
+    // Date need to be changed. date need to be passed by request.body, not by default Date.now()
+    const parsedDate = new Date(date);
     const createAppointment = new CreateAppointmentService();
     const appointment = await createAppointment.execute({
       date: parsedDate,
-      provider,
+      provider_id,
     });
 
     return response.json(appointment);
