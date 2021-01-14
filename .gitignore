@@ -1,3 +1,9 @@
 *.log
 ormconfig.json
 node_modules
+.idea/
+.vccode/
+build/
+temp/
+tmp/*
+!tmp/.gitkeep
