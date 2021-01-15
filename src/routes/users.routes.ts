@@ -3,6 +3,7 @@ import CreateUserService from '../services/CreateUserService';
 import ensureAuthenticated from '../middleware/ensureAuthenticated';
 import multer from 'multer';
 import uploadConfig from '../config/upload';
+import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 
 
@@ -32,7 +33,17 @@ usersRouter.post('/', async (request, response) => {
 });
 
 usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), async (request, response) => {
-  return response.json({ ok: true });
-})
+  try {
+    const updateUserAvatar = new UpdateUserAvatarService();
+    const user: userResponse = await updateUserAvatar.execute({
+      user_id: request.user.id,
+      avatarFilename: request.file.filename,
+    });
+    delete user.password;
+    return response.json(user);
+  } catch (err) {
+    return response.json({ error: err.message });
+  }
+});
 
 export default usersRouter;
