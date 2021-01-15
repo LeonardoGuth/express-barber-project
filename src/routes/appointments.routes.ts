@@ -19,21 +19,19 @@ appointmentRouter.get('/', async (requeste, response) => {
 });
 
 appointmentRouter.post('/', async (request, response) => {
-  try {
-    const { date, provider_id } = request.body;
 
-    // Date need to be changed. date need to be passed by request.body, not by default Date.now()
-    const parsedDate = new Date(date);
-    const createAppointment = new CreateAppointmentService();
-    const appointment = await createAppointment.execute({
-      date: parsedDate,
-      provider_id,
-    });
+  const { date, provider_id } = request.body;
 
-    return response.json(appointment);
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+  // Date need to be changed. date need to be passed by request.body, not by default Date.now()
+  const parsedDate = new Date(date);
+  const createAppointment = new CreateAppointmentService();
+  const appointment = await createAppointment.execute({
+    date: parsedDate,
+    provider_id,
+  });
+
+  return response.json(appointment);
+
 });
 
 export default appointmentRouter;

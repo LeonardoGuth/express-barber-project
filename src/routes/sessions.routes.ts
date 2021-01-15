@@ -9,22 +9,20 @@ interface userResponse {
 }
 
 sessionsRouter.post('/', async (request, response) => {
-  try {
-    const { email, password } = request.body;
-    const authenticateUser = new AuthenticateUserService();
 
-    const { user, token } = await authenticateUser.execute({
-      email,
-      password,
-    });
+  const { email, password } = request.body;
+  const authenticateUser = new AuthenticateUserService();
 
-    const userResponse: userResponse = user;
-    delete userResponse.password;
+  const { user, token } = await authenticateUser.execute({
+    email,
+    password,
+  });
 
-    return response.json({ userResponse, token });
-  } catch (err) {
-    return response.status(err.statuscode).json({ errol: err.message });
-  }
+  const userResponse: userResponse = user;
+  delete userResponse.password;
+
+  return response.json({ userResponse, token });
+
 });
 
 export default sessionsRouter;
