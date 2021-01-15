@@ -4,7 +4,7 @@ import User from '../models/User';
 import { sign } from 'jsonwebtoken';
 import authConfig from '../config/auth';
 import auth from "../config/auth";
-//import { hash } from 'bcryptjs';
+import AppError from '../errors/AppError';
 
 interface Request {
   email: string;
@@ -26,13 +26,13 @@ class AuthenticateUserService {
     const user = await usersRepository.findOne({ where: { email } });
 
     if (!user) {
-      throw new Error('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination.', 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination.', 401);
     }
 
     // Second Field generated in md5 online
